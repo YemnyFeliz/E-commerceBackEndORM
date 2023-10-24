@@ -9,10 +9,10 @@ router.get('/', async (req, res) => {
 
  try {
   const allTags = await Tag.findAll({
-    include: [{ module: Product, through: ProductTag }],
+    include: [{ model: Product, through: ProductTag }],
   });
 
-  res.jason(allTags);
+  res.json(allTags);
 
  } catch (error) {
   res.status(500).json(error);
@@ -53,11 +53,11 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a tag's name by its `id` value
 
   try {
-    const putTag = await Tag.update({
+    const putTag = await Tag.update(req.body, {
       where: {
         id: req.params.id
       },
